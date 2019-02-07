@@ -25,7 +25,7 @@ If required you can create a custom security group using the below command line:
 
 ## Create a custom role
 
-* **Role Name:** XXXXX-ip-security-group-update
+* **Role Name:** github-ip-security-group-update
 
 Required rule to allow the lambda function to edit the security group, use the content of the _allow-ec2-security-group_ file       
 
