@@ -1,6 +1,7 @@
 # lambda-github-ip-security-group-update
 
-Only allowing access from GitHub's webhooks IP addresses by whitelisting them into your AWS security group.
+Using a Lambda function to automate creating and updating a Security Group of GitHub's hooks IP addresses.
+I use this function to only allow Github webhooks access my Jenkins instance hosted on AWS ec2 instance.
 
 ## Configure triggers using CloudWatch Events
 
