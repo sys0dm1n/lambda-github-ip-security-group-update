@@ -34,6 +34,10 @@ Required rule to allow the lambda function to edit the security group, use the c
 
 Set the Timeout to 8 seconds
     
+## Room for improvement
+
+If you happen to find something not to your liking, you are welcome to send a PR.
+
 **Ref.:** 
 
 * [https://api.github.com/meta](https://api.github.com/meta)
