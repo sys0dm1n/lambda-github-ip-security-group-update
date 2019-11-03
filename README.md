@@ -14,8 +14,11 @@ I use this function to only allow Github webhooks access my Jenkins instance hos
 
 ## Environment variables
 
-**key:** PORTS_LIST
-**value:** 8001,8002
+**key:** INGRESS_PORTS_LIST
+**value:** 80,443
+
+**key:** EGRESS_PORTS_LIST
+**value:** 22,80,443
 
 **key:** SECURITY_GROUP_ID
 **value:** add your security group id here
