@@ -1,6 +1,6 @@
 import os
 import boto3
-from botocore.vendored import requests
+import botocore.vendored.requests as requests
 
 
 def get_github_ip_list():
@@ -74,7 +74,7 @@ def add_ingress_rule(group, address, port, description):
         }
     ]
     group.authorize_ingress(IpPermissions=permissions)
-    print("Ingress rule from IP %s to Port %i has been added" % (address, port))
+    print(("Ingress rule from IP %s to Port %i has been added" % (address, port)))
 
 
 def add_egress_rule(group, address, port, description):
@@ -101,7 +101,7 @@ def add_egress_rule(group, address, port, description):
         }
     ]
     group.authorize_egress(IpPermissions=permissions)
-    print("Egress rule to IP %s from Port %i has been added" % (address, port))
+    print(("Egress rule to IP %s from Port %i has been added" % (address, port)))
 
 
 def lambda_handler(event, context):
