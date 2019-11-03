@@ -5,6 +5,7 @@
             "Effect": "Allow",
             "Action": [
                 "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:AuthorizeSecurityGroupEgress",
                 "ec2:DescribeSecurityGroups"
             ],
             "Resource": [
