@@ -10,7 +10,7 @@ I use this function to only allow Github webhooks access my Jenkins instance hos
     
 ## Function code for GitHub
 
-* **Python** 2.7
+* **Python** 3.7
 
 ## Environment variables
 
