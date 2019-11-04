@@ -5,7 +5,11 @@
             "Effect": "Allow",
             "Action": [
                 "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:DescribeSecurityGroups"
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:DescribeSecurityGroups",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
             ],
             "Resource": [
                 "*"

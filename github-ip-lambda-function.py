@@ -1,6 +1,6 @@
 import os
 import boto3
-from botocore.vendored import requests
+import botocore.vendored.requests as requests
 
 
 def get_github_ip_list():
@@ -50,7 +50,7 @@ def check_rule_exists(rules, address, port):
     return False
 
 
-def add_rule(group, address, port, description):
+def add_ingress_rule(group, address, port, description):
     """
     Add the IP address and port to the security group
 
@@ -74,7 +74,34 @@ def add_rule(group, address, port, description):
         }
     ]
     group.authorize_ingress(IpPermissions=permissions)
-    print("Added %s : %i  " % (address, port))
+    print(("Ingress rule from IP %s to Port %i has been added" % (address, port)))
+
+
+def add_egress_rule(group, address, port, description):
+    """
+    Add the IP address and port to the security group
+
+    :param group:
+    :param address:
+    :param port:
+    :param description:
+    :return:
+    """
+    permissions = [
+        {
+            'IpProtocol': 'tcp',
+            'FromPort': port,
+            'ToPort': port,
+            'IpRanges': [
+                {
+                    'CidrIp': address,
+                    'Description': description,
+                }
+            ],
+        }
+    ]
+    group.authorize_egress(IpPermissions=permissions)
+    print(("Egress rule to IP %s from Port %i has been added" % (address, port)))
 
 
 def lambda_handler(event, context):
@@ -85,16 +112,24 @@ def lambda_handler(event, context):
     :param context:
     :return:
     """
-    ports = [int(port) for port in os.environ['PORTS_LIST'].split(",")]
-    if not ports:
-        ports = [80]
+    ingress_ports = [int(port) for port in os.environ['INGRESS_PORTS_LIST'].split(",")]
+    if not ingress_ports:
+        ingress_ports = [80]
+
+    egress_ports = [int(port) for port in os.environ['EGRESS_PORTS_LIST'].split(",")]
+    if not egress_ports:
+        egress_ports = [22]
 
     security_group = get_aws_security_group(os.environ['SECURITY_GROUP_ID'])
-    current_rules = security_group.ip_permissions
+    current_ingress_rules = security_group.ip_permissions
+    current_egress_rules = security_group.ip_permissions_egress
     ip_addresses = get_github_ip_list()
-    description = "Authorize GitHub webhooks access"
+    description = "GitHub"
 
     for ip_address in ip_addresses:
-        for port in ports:
-            if not check_rule_exists(current_rules, ip_address, port):
-                add_rule(security_group, ip_address, port, description)
+        for port in ingress_ports:
+            if not check_rule_exists(current_ingress_rules, ip_address, port):
+                add_ingress_rule(security_group, ip_address, port, description)
+        for port in egress_ports:
+            if not check_rule_exists(current_egress_rules, ip_address, port):
+                add_egress_rule(security_group, ip_address, port, description)
