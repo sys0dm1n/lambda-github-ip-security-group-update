@@ -1,6 +1,6 @@
 import os
 import boto3
-import botocore.vendored.requests as requests
+import requests
 
 
 def get_github_ip_list():
