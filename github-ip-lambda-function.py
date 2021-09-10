@@ -43,11 +43,18 @@ def check_rule_exists(rules, address, port):
     :param port:
     :return:
     """
+    if "." in address:
+        rulekey = 'IpRanges'
+        rangekey = 'CidrIp'
+    else:
+        rulekey = 'Ipv6Ranges'
+        rangekey = 'CidrIpv6'
     for rule in rules:
-        for ip_range in rule['IpRanges']:
-            if ip_range['CidrIp'] == address and rule['FromPort'] == port:
+        for ip_range in rule[rulekey]:
+            if ip_range[rangekey] == address and rule['FromPort'] == port:
                 return True
     return False
+
 
 
 def add_ingress_rule(group, address, port, description):
