@@ -60,19 +60,34 @@ def add_ingress_rule(group, address, port, description):
     :param description:
     :return:
     """
-    permissions = [
-        {
-            'IpProtocol': 'tcp',
-            'FromPort': port,
-            'ToPort': port,
-            'IpRanges': [
-                {
-                    'CidrIp': address,
-                    'Description': description,
-                }
-            ],
-        }
-    ]
+    if "." in address:
+        permissions = [
+            {
+                'IpProtocol': 'tcp',
+                'FromPort': port,
+                'ToPort': port,
+                'IpRanges': [
+                    {
+                        'CidrIp': address,
+                        'Description': description,
+                    }
+                ],
+            }
+        ]
+    else:
+        permissions = [
+            {
+                'IpProtocol': 'tcp',
+                'FromPort': port,
+                'ToPort': port,
+                'Ipv6Ranges': [
+                    {
+                        'CidrIpv6': address,
+                        'Description': description,
+                    }
+                ],
+            }
+        ]
     group.authorize_ingress(IpPermissions=permissions)
     print(("Ingress rule from IP %s to Port %i has been added" % (address, port)))
 
@@ -87,19 +102,34 @@ def add_egress_rule(group, address, port, description):
     :param description:
     :return:
     """
-    permissions = [
-        {
-            'IpProtocol': 'tcp',
-            'FromPort': port,
-            'ToPort': port,
-            'IpRanges': [
-                {
-                    'CidrIp': address,
-                    'Description': description,
-                }
-            ],
-        }
-    ]
+    if "." in address:
+        permissions = [
+            {
+                'IpProtocol': 'tcp',
+                'FromPort': port,
+                'ToPort': port,
+                'IpRanges': [
+                    {
+                        'CidrIp': address,
+                        'Description': description,
+                    }
+                ],
+            }
+        ]
+    else:
+        permissions = [
+            {
+                'IpProtocol': 'tcp',
+                'FromPort': port,
+                'ToPort': port,
+                'Ipv6Ranges': [
+                    {
+                        'CidrIpv6': address,
+                        'Description': description,
+                    }
+                ],
+            }
+        ]
     group.authorize_egress(IpPermissions=permissions)
     print(("Egress rule to IP %s from Port %i has been added" % (address, port)))
 
